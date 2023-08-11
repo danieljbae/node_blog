@@ -12,21 +12,22 @@ app.use(express.static('public')) // Register static assets
 app.use(expressEdge) // Templating engine functionality
 app.set('views', `${__dirname}/views`) // Set location of views
 
+
 // Create route handlers with express-edge
 app.get("/", (req, res) => {
     res.render('index')
 })
 
 app.get("/about", (req, res) => {
-    res.sendFile(path.join(__dirname, "pages/about.html"))
+    res.render('about')
 })
 
 app.get("/contact", (req, res) => {
-    res.sendFile(path.join(__dirname, "pages/contact.html"))
+    res.render('contact')
 })
 
 app.get("/post", (req, res) => {
-    res.sendFile(path.join(__dirname, "pages/post.html"))
+    res.render('post')
 })
 
 //  Start App Server
