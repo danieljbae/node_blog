@@ -1,16 +1,20 @@
 // Imports
-const express = require('express')
 const path = require('path')
+const express = require('express')
+const expressEdge = require('express-edge')
 
 // Init App server
 const app = express()
 
-// Register folder for static assets
-app.use(express.static('public'))
 
-// Create route handlers
+// Add Functionality to app
+app.use(express.static('public')) // Register static assets
+app.use(expressEdge) // Templating engine functionality
+app.set('views', `${__dirname}/views`) // Set location of views
+
+// Create route handlers with express-edge
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "pages/index.html"))
+    res.render('index')
 })
 
 app.get("/about", (req, res) => {
