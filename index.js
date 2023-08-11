@@ -32,5 +32,5 @@ app.get("/post", (req, res) => {
 
 //  Start App Server
 app.listen(port = 4000, () => {
-    console.log('App listening on Port 4000')
+    console.log('App listening on Port 4000 ')
 })
