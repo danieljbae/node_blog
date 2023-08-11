@@ -21,6 +21,10 @@ app.get("/contact", (req, res) => {
     res.sendFile(path.join(__dirname, "pages/contact.html"))
 })
 
+app.get("/post", (req, res) => {
+    res.sendFile(path.join(__dirname, "pages/post.html"))
+})
+
 //  Start App Server
 app.listen(port = 4000, () => {
     console.log('App listening on Port 4000')
