@@ -11,6 +11,5 @@ const PostSchema = new mongoose.Schema({
 // Define a model (table) which app interacts with
 const Post = mongoose.model("Post", PostSchema);
 
-
 // Export post model
 export default Post;
