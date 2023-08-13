@@ -5,7 +5,8 @@ import { dirname } from 'path';
 import express from 'express';
 import expressEdge from 'express-edge';
 import mongoose from 'mongoose';
-
+import bodyParser from 'body-parser';
+import Post from './db/models/Post.js';
 
 // Get the current filename and directory using ESM-compatible functions
 const __filename = fileURLToPath(import.meta.url);
@@ -18,13 +19,19 @@ const app = express();
 app.use(express.static('public')); // Register static assets
 app.use(expressEdge); // Templating engine functionality
 app.set('views', path.join(__dirname, 'views')); // Set location of views
+app.use(bodyParser.json()); // Allows our app to accept JSON from brower (or api client)
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set up Database connection to MongoDB
 mongoose.connect('mongodb://localhost/node-js-blog');
 
 // Create route handlers with express-edge
-app.get("/", (req, res) => {
-    res.render('index');
+app.get("/", async (req, res) => {
+    const posts = await Post.find({});
+    console.log(posts)
+    res.render('index', {
+        posts
+    });
 });
 
 app.get("/about", (req, res) => {
@@ -35,8 +42,11 @@ app.get("/contact", (req, res) => {
     res.render('contact');
 });
 
-app.get("/post", (req, res) => {
-    res.render('post');
+app.get("/post/:id", async (req, res) => {
+    const post = await Post.findById(req.params.id);
+    res.render('post', {
+        post
+    });
 });
 
 app.get("/post/new", (req, res) => {
@@ -44,8 +54,14 @@ app.get("/post/new", (req, res) => {
 });
 
 // Post request - save data to Posts model
-app.post("/post/store", (req, res) => {
-    res.redirect('/')
+app.post("/post/store", async (req, res) => {
+    try {
+        const post = await Post.create(req.body);
+        res.redirect('/');
+    } catch (error) {
+        console.error(error);
+        res.redirect('/error-page'); // Redirect to an error page if something goes wrong
+    }
 });
 
 // Start App Server
