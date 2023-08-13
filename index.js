@@ -1,8 +1,15 @@
 // Imports
 import path from 'path';
+import { fileURLToPath } from 'url';  // Import necessary functions
+import { dirname } from 'path';
 import express from 'express';
 import expressEdge from 'express-edge';
 import mongoose from 'mongoose';
+
+
+// Get the current filename and directory using ESM-compatible functions
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Init App server
 const app = express();
@@ -30,6 +37,15 @@ app.get("/contact", (req, res) => {
 
 app.get("/post", (req, res) => {
     res.render('post');
+});
+
+app.get("/post/new", (req, res) => {
+    res.render('create');
+});
+
+// Post request - save data to Posts model
+app.post("/post/store", (req, res) => {
+    res.redirect('/')
 });
 
 // Start App Server
