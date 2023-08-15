@@ -34,21 +34,6 @@ app.get("/", async (req, res) => {
     });
 });
 
-app.get("/about", (req, res) => {
-    res.render('about');
-});
-
-app.get("/contact", (req, res) => {
-    res.render('contact');
-});
-
-app.get("/post/:id", async (req, res) => {
-    const post = await Post.findById(req.params.id);
-    res.render('post', {
-        post
-    });
-});
-
 app.get("/post/new", (req, res) => {
     res.render('create');
 });
@@ -62,6 +47,35 @@ app.post("/post/store", async (req, res) => {
         console.error(error);
         res.redirect('/error-page'); // Redirect to an error page if something goes wrong
     }
+});
+
+app.get("/post/:id", async (req, res) => {
+    try {
+        console.log("TESTING HELLO WORLD");
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            // Handle the case where no post was found with the given ID
+            console.log("Unable to find post by ID!!!!!!!!");
+            return res.status(404).send("Post not found");
+        }
+        res.render('post', {
+            post
+        });
+        console.log("Loaded in standard post ");
+    } catch (error) {
+        // Handle the error appropriately, e.g., sending an error response
+        res.status(500).send("An error occurred while fetching the post");
+        console.log("CATCH ERROR", error);
+    }
+});
+
+
+app.get("/about", (req, res) => {
+    res.render('about');
+});
+
+app.get("/contact", (req, res) => {
+    res.render('contact');
 });
 
 // Start App Server
