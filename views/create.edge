@@ -20,7 +20,7 @@
 	<div class="row">
 		<div class="col-md-8 offset-md-2">
             {{--  Add Post Action to submit data to DB  --}}
-			<form action="/post/store" method="POST">
+			<form action="/post/store" method="POST" enctype="multipart/form-data">
 				<div class="control-group">
 					<div class="form-group floating-label-form-group controls">
 						<label>Username</label>
@@ -67,6 +67,11 @@
 						></textarea>
 					</div>
 				</div>
+
+                {{--  File/Image upload field  --}}
+                <div class="form-group">
+                    <input type="file" name="image" class="form-control-file">
+                </div>
                 
                 {{--  Button to submit form  --}}
 				<div class="form-group my-4 text-center">
