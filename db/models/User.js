@@ -3,10 +3,25 @@ import mongoose from 'mongoose';
 
 
 const UserSchema = new mongoose.Schema({
-    username: String,
-    email: String,
-    password: String
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true
+    }
 })
+
+// Create unique indexes for username and email fields
+// UserSchema.index({ username: 1, email: 1 }, { unique: true });
+
 
 // Use Mongoose Model Hook pre('save'), where 'save' is next function
 UserSchema.pre('save', function (next) {
